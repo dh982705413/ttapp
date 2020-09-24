@@ -1,0 +1,24 @@
+/* 全局样式 */
+/* 字体图标 */
+@import './iconfont';
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+.app-nav-bar {
+  background-color: #3296fa;
+  .van-nav-bar__title {
+    color: #fff;
+  }
+  .van-icon {
+    color: #fff;
+  }
+}
