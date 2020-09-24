@@ -7,3 +7,7 @@ export function login(data) {
 export function sms(mobile) {
   return http.get(`/sms/codes/${mobile}`)
 }
+// 获取用户信息
+export function fetchUserInfo() {
+  return http.get('/user')
+}

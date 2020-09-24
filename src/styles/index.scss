@@ -11,6 +11,7 @@ body,
 #app {
   width: 100%;
   height: 100%;
+  background-color: #f1f1f1;
 }
 
 .app-nav-bar {
@@ -20,5 +21,19 @@ body,
   }
   .van-icon {
     color: #fff;
+  }
+}
+
+.my-userinfo {
+  .base-info {
+    background-color: #3296fa;
+  }
+  .user-info {
+    .van-grid-item {
+      background-color: #3296fa;
+    }
+    .van-grid-item__content {
+      background-color: #3296fa;
+    }
   }
 }

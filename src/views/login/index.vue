@@ -95,6 +95,7 @@ export default {
         this.$store.dispatch('user/setRefToken', res.data.refresh_token)
         setItem(res.data)
         this.$toast.success('登录成功')
+        this.$router.back()
       } catch (error) {
         this.$toast.fail('登录失败')
       }

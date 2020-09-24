@@ -9,9 +9,19 @@ import {
   CellGroup,
   Toast,
   Form,
-  CountDown
+  CountDown,
+  Image as VanImage,
+  Lazyload,
+  Grid,
+  GridItem
 } from 'vant'
 
+Vue.use(Lazyload, {
+  lazyComponent: true
+})
+Vue.use(Grid)
+Vue.use(VanImage)
+Vue.use(GridItem)
 Vue.use(CountDown)
 Vue.use(Form)
 Vue.use(Toast)

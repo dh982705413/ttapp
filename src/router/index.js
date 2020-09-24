@@ -16,7 +16,7 @@ const routes = [
         name: 'Video',
         component: () => import('@/views/video')
       },
-      { path: '/my', name: 'My', component: () => import('@/views/home') }
+      { path: '/my', name: 'My', component: () => import('@/views/my') }
     ]
   },
   {
