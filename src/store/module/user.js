@@ -1,5 +1,5 @@
-import { getItem } from '@/utils/auth'
-const tokens = getItem()
+import { getItem, removeItem } from '@/utils/auth'
+let tokens = getItem()
 const types = {
   SET_TOKEN: 'SET_TOKEN',
   SET_REFTOKEN: 'SET_REFTOKEN'
@@ -22,6 +22,12 @@ const actions = {
   },
   setRefToken({ commit }, token) {
     commit(types.SET_REFTOKEN, token)
+  },
+  logout({ commit }) {
+    removeItem()
+    commit(types.SET_TOKEN, '')
+    commit(types.SET_REFTOKEN, '')
+    tokens = null
   }
 }
 

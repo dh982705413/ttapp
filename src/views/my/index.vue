@@ -1,70 +1,80 @@
 <template>
-  <div class="my-container my-userinfo">
+  <div class="my-container">
     <van-cell-group class="user-info">
-      <van-cell
-        center
-        :border="false"
-        class="base-info"
-      >
-        <template #icon>
-          <van-image
-            round
-            width="2rem"
-            height="2rem"
-            fit="cover"
-            v-lazy="userInfo.photo"
-          />
-        </template>
-        <template #default>
-          <van-button
-            round
-            size="small"
-          >编辑资料</van-button>
-        </template>
-        <template #title>
-          <span class="name">{{userInfo.name}}</span>
-        </template>
-      </van-cell>
-      <van-grid :border="false">
-        <van-grid-item
-          v-for="(item, index) in list"
-          :key="index"
-          class="info-list"
+      <div v-if="token">
+        <van-cell
+          center
+          class="base-info"
+          :border="false"
         >
-          <span
-            slot="icon"
-            class="num"
-          >{{ userInfo[item.desc] }}</span>
-          <span
-            slot="text"
-            class="text"
-          >{{ item.title }}</span>
-        </van-grid-item>
-      </van-grid>
+          <template #icon>
+            <van-image
+              width="2rem"
+              height="2rem"
+              fit="cover"
+              :src="userInfo.photo"
+              lazy-load
+              round
+            >
+              <template #error>
+                暂无头像
+              </template>
+            </van-image>
+          </template>
+          <template #title>
+            <span class="name">{{userInfo.name}}</span>
+          </template>
+          <template #default>
+            <van-button
+              round
+              size="small"
+              @click="$router.push('/editUserInfo')"
+            >编辑资料</van-button>
+          </template>
+        </van-cell>
+        <ul class="data-list">
+          <li
+            v-for="(item,index) in list"
+            :key="index"
+          >
+            <span class="num">{{userInfo[item.desc]}}</span>
+            <span class="title">{{item.title}}</span>
+          </li>
+        </ul>
+      </div>
+      <div
+        v-else
+        class="no-login"
+      >
+        <van-image
+          src="/img/nologin.png"
+          width="70px"
+          height="70px"
+          @click="goLogin"
+        ></van-image>
+        <span class="text">登录 / 注册</span>
+      </div>
     </van-cell-group>
     <van-grid
       :column-num="2"
       :border="false"
-      class="tab-info"
     >
-      <van-grid-item class="shoucang">
-        <template #icon>
-          <i class="iconfont iconshoucang"></i>
-        </template>
-        <template #text>
-          <span>收藏</span>
-        </template>
+      <van-grid-item class="baseicon">
+        <i
+          class="iconfont iconshoucang shoucang"
+          slot="icon"
+        ></i>
+        <span slot="text">收藏</span>
       </van-grid-item>
-      <van-grid-item class="lishi">
-        <template #icon>
-          <i class="iconfont iconlishi"></i>
-        </template>
-        <template #text>
-          <span>历史</span>
-        </template>
+      <van-grid-item class="baseicon">
+        <i
+          class="iconfont iconlishi lishi"
+          slot="icon"
+        ></i>
+        <span slot="text">历史</span>
       </van-grid-item>
     </van-grid>
-    <div class="info">
+    <div class="chat-info">
       <van-cell
         title="消息通知"
         is-link
@@ -74,10 +84,14 @@
         is-link
       />
     </div>
-    <div class="logout-btn-wrap">
+    <div
+      class="logout-btn-wrap"
+      v-if="token"
+    >
       <van-button
         block
         class="logout-btn"
+        @click="logout"
       >退出登录</van-button>
     </div>
   </div>
@@ -85,6 +99,7 @@
 
 <script>
 import { fetchUserInfo } from '@/api/user'
+import { mapGetters } from 'vuex'
 export default {
   name: 'my',
   data() {
@@ -99,7 +114,10 @@ export default {
     }
   },
   created() {
-    this.getUserInfo()
+    this.token && this.getUserInfo()
+  },
+  computed: {
+    ...mapGetters(['token'])
   },
   methods: {
     async getUserInfo() {
@@ -110,6 +128,12 @@ export default {
       } catch (error) {
         this.$toast.fail('获取用户信息失败')
       }
+    },
+    goLogin() {
+      this.$router.push('/login')
+    },
+    logout() {
+      this.$store.dispatch('user/logout')
     }
   }
 }
@@ -118,55 +142,75 @@ export default {
 <style lang="scss" scoped>
 .my-container {
   .user-info {
-    background-color: #3296fa;
+    background: url(/img/banner.png);
+    .van-cell {
+      background-color: transparent;
+    }
     .base-info {
-      padding: 38px 8px 11px;
+      padding: 38px 16px 12px;
       .name {
-        margin-left: 10px;
+        margin: 0 10px;
         color: #fff;
+        font-size: 15px;
       }
     }
-    .data-info {
-      .van-grid-item__content {
-        background-color: red;
+    .data-list {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      li {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        color: #fff;
+        .num {
+          font-size: 18px;
+        }
+        .title {
+          font-size: 12px;
+          margin-top: 5px;
+        }
       }
     }
-    .info-list {
-      color: #fff;
+    .no-login {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 74px 0 38px;
       .text {
-        font-size: 16px;
-      }
-      .num {
-        font-size: 16px;
+        color: #fff;
+        font-size: 14px;
+        margin-top: 10px;
       }
     }
   }
-  .tab-info {
-    background-color: #fff;
-    .shoucang {
-      i {
-        font-size: 24px;
-        color: red;
-      }
-    }
-    .lishi {
-      i {
-        font-size: 24px;
-        color: yellow;
-      }
-      font-size: 24px;
+  .baseicon {
+    i {
+      font-size: 25px;
     }
     span {
-      font-size: 18px;
-      margin-top: 5px;
+      margin-top: 8px;
+      font-size: 15px;
       letter-spacing: 2px;
+      text-align: center;
+    }
+    .shoucang {
+      color: #eb5253;
+    }
+    .lishi {
+      color: #ff9d1d;
     }
   }
-  .info {
-    margin: 10px 0;
+  .chat-info {
+    margin: 5px 0;
   }
-  .logout-btn {
-    color: red;
+  .logout-btn-wrap {
+    .logout-btn {
+      color: #dd7d7d;
+      font-size: 15px;
+      height: 50px;
+    }
   }
 }
 </style>

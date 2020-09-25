@@ -1,6 +1,6 @@
 /* 全局样式 */
 /* 字体图标 */
-@import './iconfont';
+@import "./iconfont";
 body {
   margin: 0;
   padding: 0;
@@ -24,16 +24,6 @@ body,
   }
 }
 
-.my-userinfo {
-  .base-info {
-    background-color: #3296fa;
-  }
-  .user-info {
-    .van-grid-item {
-      background-color: #3296fa;
-    }
-    .van-grid-item__content {
-      background-color: #3296fa;
-    }
-  }
+.van-nav-bar__title {
+  max-width: 100%;
 }

@@ -13,12 +13,20 @@ import {
   Image as VanImage,
   Lazyload,
   Grid,
-  GridItem
+  GridItem,
+  Tab,
+  Tabs,
+  List,
+  PullRefresh
 } from 'vant'
 
 Vue.use(Lazyload, {
-  lazyComponent: true
+  error: '/img/avatar.jpg'
 })
+Vue.use(PullRefresh)
+Vue.use(List)
+Vue.use(Tab)
+Vue.use(Tabs)
 Vue.use(Grid)
 Vue.use(VanImage)
 Vue.use(GridItem)

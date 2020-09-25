@@ -11,3 +11,7 @@ export function sms(mobile) {
 export function fetchUserInfo() {
   return http.get('/user')
 }
+// 修改用户信息
+export function editUserInfo(data) {
+  return http.patch('/user/profile', data)
+}
